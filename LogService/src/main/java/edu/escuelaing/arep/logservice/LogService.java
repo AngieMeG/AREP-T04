@@ -1,11 +1,16 @@
-package LogService.src.main.java.edu.escuelaing.arep.logservice;
+package edu.escuelaing.arep.logservice;
 
+import static spark.Spark.get;
+import static spark.Spark.port;
 public class LogService {
     public static void main(String... args){
         port(getPort());
-        get("message", (req,res) -> {
-            
-        };
+        get("/", (req,res) -> welcomePage());
+    }
+
+
+    private static String welcomePage(){
+        return "";
     }
 
     private static int getPort() {
