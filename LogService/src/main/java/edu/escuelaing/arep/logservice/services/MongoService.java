@@ -1,6 +1,7 @@
 package edu.escuelaing.arep.logservice.services;
 
 import com.mongodb.client.MongoClient;
+import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -18,7 +19,7 @@ import java.util.List;
 
 public class MongoService {
     
-    private static final String URL_CONNECTION = "mongodb://localhost:27017";
+    private static final String CONNECTION = "mongodb://db";
     private static final String DATABASE = "AREP-T04";
     private String collectionName;
 
@@ -27,7 +28,7 @@ public class MongoService {
     }
 
     public void saveMessage(String content, String date) throws ParseException{
-        MongoClient mongoClient = MongoClients.create(URL_CONNECTION);
+        MongoClient mongoClient = MongoClients.create(CONNECTION);
         MongoDatabase database = mongoClient.getDatabase(DATABASE);
         MongoCollection<Document> collection = database.getCollection(collectionName);
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -39,7 +40,8 @@ public class MongoService {
 
     public List<Document> getLastMessages() {
         ArrayList<Document> messageList;
-        MongoClient mongoClient = MongoClients.create(URL_CONNECTION);
+        MongoClient mongoClient = MongoClients.create(CONNECTION);
+        System.out.println("mongoClients");
         MongoDatabase database = mongoClient.getDatabase(DATABASE);
         MongoCollection<Document> collection = database.getCollection(collectionName);
         messageList = collection.find().sort(new BasicDBObject("creation_date",-1)).limit(10).into(new ArrayList<>());
@@ -47,7 +49,7 @@ public class MongoService {
     }
 
     public List<Document> getMessages() {
-        MongoClient mongoClient = MongoClients.create(URL_CONNECTION);
+        MongoClient mongoClient = MongoClients.create(CONNECTION);
         ArrayList<Document> messageList;
         MongoDatabase database = mongoClient.getDatabase(DATABASE);
         MongoCollection<Document> collection = database.getCollection(collectionName);
@@ -57,7 +59,7 @@ public class MongoService {
 
 
     public void delete(){
-        MongoClient mongoClient = MongoClients.create(URL_CONNECTION);
+        MongoClient mongoClient = MongoClients.create(CONNECTION);
         MongoDatabase database = mongoClient.getDatabase(DATABASE);
         MongoCollection<Document> collection = database.getCollection(collectionName);
         collection.drop();

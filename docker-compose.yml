@@ -5,27 +5,28 @@ services:
         image: angiemeg/logservice
         container_name: logservice
         ports:
-            - "35000:6000"
+            - "35001-35003:6001"
         depends_on:
-            - db-mongo
+            - db
 
     roundrobin:
-        image: angiemeg/roundrobin
+        image: angiemeg/lbroundrobin
         container_name: lbroundrobin
         ports:
-            - "35001-35003:6000"
+            - "35000:6000"
         depends_on:
             - logservice
 
-    db-mongo:
+    db:
         image: mongo:3.6.1
-        container_name: db-mongo
+        container_name: db
         volumes:
             - mongodb:/data/db
             - mongodb_config:/data/configdb
         ports:
             - 27017:27017
         command: mongod
+        
 volumes:
     mongodb:
     mongodb_config:

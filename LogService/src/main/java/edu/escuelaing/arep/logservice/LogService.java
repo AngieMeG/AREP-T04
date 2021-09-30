@@ -19,7 +19,7 @@ public class LogService {
     private static final String USED_COLLECTION = "Messages";
     private static MongoService mongoService;
 
-    public static void main(String... args){
+    public static void main(String[] args){
         port(getPort());
         mongoService = new MongoService(USED_COLLECTION);
         post("/messages", (req,res) -> postHandler(req, res));
@@ -58,6 +58,6 @@ public class LogService {
         if (System.getenv("PORT") != null) {
             return Integer.parseInt(System.getenv("PORT"));
         }
-        return 4567;
+        return 4568;
     }
 }

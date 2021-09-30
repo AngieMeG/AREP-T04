@@ -2,9 +2,9 @@ FROM openjdk:8
 
 WORKDIR /usrapp/bin
 
-ENV PORT 6000
+ENV PORT 6001
 
 COPY /target/classes /usrapp/bin/classes
 COPY /target/dependency /usrapp/bin/dependency
 
-CMD ["java","-cp","./classes:./dependency/*", "edu.escuelaing.arep.logservice.LogService"]
+CMD ["java","-cp","./classes:./dependency/*", "edu.escuelaing.arep.logservice.LogService"]public static void main(String[] args)
