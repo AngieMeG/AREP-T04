@@ -19,7 +19,8 @@ import java.util.List;
 
 public class MongoService {
     
-    private static final String CONNECTION = "mongodb://db";
+    /*private static final String CONNECTION = "mongodb://db";*/
+    private static final String CONNECTION = "mongodb://localhost:27017";
     private static final String DATABASE = "AREP-T04";
     private String collectionName;
 
@@ -31,10 +32,10 @@ public class MongoService {
         MongoClient mongoClient = MongoClients.create(CONNECTION);
         MongoDatabase database = mongoClient.getDatabase(DATABASE);
         MongoCollection<Document> collection = database.getCollection(collectionName);
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/YYYY hh:mm:ss");
         Document message = new Document("_id", new ObjectId());
         message.append("content", content);
-        message.append("creation_date", dateFormat.parse(date));
+        message.append("creation_date", dateFormat.format(date));
         collection.insertOne(message);
     }
 
@@ -68,7 +69,7 @@ public class MongoService {
     public static void main(String[] args){
         try{
             MongoService mongoService = new MongoService("Messages");
-            /*mongoService.delete();*/
+            mongoService.delete();
             /*mongoService.saveMessage("Prueba6", "11/05/2006");
             mongoService.saveMessage("Prueba1", "11/05/2001");
             mongoService.saveMessage("Prueba11", "11/05/2011");

@@ -12,9 +12,21 @@
                 <h1> <span class="dot"></span> WRITE A MESSAGE HERE <span class="dot"></span></h1>
                 <p>Type here the resource you want to display</p>
                 <div class="info-wrapper">
-                    <input class="message">
-                    <button id="submit">Sent it</button>
+                    <input id="message">
+                    <button id="submit" onclick="webClient.postMessage(message.value)">Sent it</button>
                 </div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th> Message </th>
+                            <th> Creation Date </th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                </table>
             </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>

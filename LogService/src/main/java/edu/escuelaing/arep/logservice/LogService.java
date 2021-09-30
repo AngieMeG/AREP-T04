@@ -35,8 +35,8 @@ public class LogService {
         } else{
             res.status(201);
             res.type("application/json");
-            SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/yyyy");
-            Date currentDate = new Date(System.currentTimeMillis());
+            SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/YYYY hh:mm:ss");
+            Date currentDate = new Date();
             try {
                 mongoService.saveMessage(req.body(),dateFormat.format(currentDate));
             } catch (ParseException e) {
