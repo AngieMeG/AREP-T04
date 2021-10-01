@@ -3,7 +3,6 @@ import static spark.Spark.*;
 
 import java.util.Arrays;
 
-import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 import edu.escuelaing.arep.lbroundrobin.model.ServerConnection;
@@ -15,13 +14,14 @@ import static spark.Spark.post;
 import spark.Response;
 import spark.Request;
 
+
 public class Balancer{
         public static void main(String[] args){
         port(getPort());
         staticFiles.location("/static");
         String url = "http://127.0.0.1:";
-        /*ArrayList<String> portInstances = new ArrayList<>(Arrays.asList(url+"35001", url+"35002", url+"35003"));*/
-        ArrayList<String> portInstances = new ArrayList<>(Arrays.asList(url+"4568"));
+        ArrayList<String> portInstances = new ArrayList<>(Arrays.asList(url+"35001", url+"35002", url+"35003"));
+        /*ArrayList<String> portInstances = new ArrayList<>(Arrays.asList(url+"4568"));*/
         ServerConnection server = new ServerConnection(portInstances);
         get("/messages", (req, res) -> handleGetMessage(req, res, server));
         post("/messages", (req, res) -> handlePostMessage(req, res, server));
@@ -29,22 +29,19 @@ public class Balancer{
 
 
     public static String handleGetMessage(Request req, Response res, ServerConnection server) {
-        HttpResponse<String> lbResponse;
+        String lbResponse;
         try {
             lbResponse = server.getRequest();
-            res.status(lbResponse.getStatus());
-            System.out.println(lbResponse.getBody());
-            return lbResponse.getBody();
+            return lbResponse;
         } catch (UnirestException e) {
             return "Error";
         }
     }
 
     public static String handlePostMessage(Request req, Response res, ServerConnection server) {
-        HttpResponse<String> lbResponse;
+        System.out.println("ENTRO POST");
         try {
-            lbResponse = server.postRequest(req.body());
-            res.status(lbResponse.getStatus());
+            server.postRequest(req.body());
             return handleGetMessage(req,res, server);
         } catch (UnirestException e) {
             return "Error";

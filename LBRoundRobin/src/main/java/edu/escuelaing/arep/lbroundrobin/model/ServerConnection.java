@@ -1,7 +1,5 @@
 package edu.escuelaing.arep.lbroundrobin.model;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -17,17 +15,18 @@ public class ServerConnection {
         indexInstance = 0;
     }
 
-    public HttpResponse<String> getRequest() throws UnirestException{
+    public String getRequest() throws UnirestException{
         String url =  getServer() + QUERY;
         System.out.println("URL: " + url);
         HttpResponse<String> response = Unirest.get(url).asString() ;
-        return response;
+        return response.getBody();
     }
 
-    public HttpResponse<String> postRequest(String body) throws UnirestException{
+    public String postRequest(String body) throws UnirestException{
+        System.out.println("postRequest");
         String url =  getServer() + QUERY;
         HttpResponse<String> response = Unirest.post(url).body(body).asString() ;
-        return response;
+        return response.getBody();
     }
 
     private String getServer(){

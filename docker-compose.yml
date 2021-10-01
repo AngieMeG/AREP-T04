@@ -1,11 +1,27 @@
 version: '2'
 
 services:
-    logservice:
+    logservice1:
         image: angiemeg/logservice
-        container_name: logservice
+        container_name: logservice1
         ports:
-            - "35001-35003:6001"
+            - "35001:6001"
+        depends_on:
+            - db
+
+    logservice2:
+        image: angiemeg/logservice
+        container_name: logservice2
+        ports:
+            - "35002:6001"
+        depends_on:
+            - db
+
+    logservice3:
+        image: angiemeg/logservice
+        container_name: logservice3
+        ports:
+            - "35003:6001"
         depends_on:
             - db
 
@@ -15,7 +31,9 @@ services:
         ports:
             - "35000:6000"
         depends_on:
-            - logservice
+            - logservice1
+            - logservice2
+            - logservice3
 
     db:
         image: mongo:3.6.1

@@ -10,8 +10,6 @@ import spark.Request;
 
 import org.bson.Document;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import edu.escuelaing.arep.logservice.services.MongoService;
@@ -23,7 +21,7 @@ public class LogService {
         port(getPort());
         mongoService = new MongoService(USED_COLLECTION);
         post("/messages", (req,res) -> postHandler(req, res));
-        get("/messages", (req,res) -> getHandler(req, res));
+        get("/messages", (req,res) -> getHandler(res));
     }
 
 
@@ -35,10 +33,8 @@ public class LogService {
         } else{
             res.status(201);
             res.type("application/json");
-            SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/YYYY hh:mm:ss");
-            Date currentDate = new Date();
             try {
-                mongoService.saveMessage(req.body(),dateFormat.format(currentDate));
+                mongoService.saveMessage(req.body());
             } catch (ParseException e) {
                 res.type("text/plain");
                 response = "Invalid request";
@@ -47,7 +43,7 @@ public class LogService {
         return response;
     }
     
-    private static String getHandler(Request req, Response res){
+    private static String getHandler(Response res){
         List<Document> messagesList = mongoService.getLastMessages();
         res.status(200);
         res.type("application/json");

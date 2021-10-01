@@ -4,32 +4,29 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preload" href="css/styles.css" as="style">
+        <link href="css/styles.css" rel="stylesheet">
         <title>Messages</title>
     </head>
     <body>
         <div class="container center">
             <div class="card">
-                <h1> <span class="dot"></span> WRITE A MESSAGE HERE <span class="dot"></span></h1>
-                <p>Type here the resource you want to display</p>
                 <div class="info-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-writing" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#7f9c9f" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M20 17v-12c0 -1.121 -.879 -2 -2 -2s-2 .879 -2 2v12l2 2l2 -2z" />
+                        <path d="M16 7h4" />
+                        <path d="M18 19h-13a2 2 0 1 1 0 -4h4a2 2 0 1 0 0 -4h-3" />
+                    </svg>
                     <input id="message">
                     <button id="submit" onclick="webClient.postMessage(message.value)">Sent it</button>
                 </div>
             </div>
             <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th> Message </th>
-                            <th> Creation Date </th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                    </tbody>
-                </table>
             </div>
         </div>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="script.js"></script>
+        <script src="js/script.js"></script>
     </body>
 </html>

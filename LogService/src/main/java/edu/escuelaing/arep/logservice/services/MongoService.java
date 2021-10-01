@@ -1,26 +1,23 @@
 package edu.escuelaing.arep.logservice.services;
 
 import com.mongodb.client.MongoClient;
-import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.BasicDBObject;
-import org.bson.types.ObjectId;
 import org.bson.Document;
 
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
 public class MongoService {
     
-    /*private static final String CONNECTION = "mongodb://db";*/
-    private static final String CONNECTION = "mongodb://localhost:27017";
+    private static final String CONNECTION = "mongodb://db";
+    /*private static final String CONNECTION = "mongodb://localhost:27017";*/
     private static final String DATABASE = "AREP-T04";
     private String collectionName;
 
@@ -28,24 +25,26 @@ public class MongoService {
         this.collectionName = collectionName;
     }
 
-    public void saveMessage(String content, String date) throws ParseException{
+    public void saveMessage(String content) throws ParseException{
         MongoClient mongoClient = MongoClients.create(CONNECTION);
         MongoDatabase database = mongoClient.getDatabase(DATABASE);
         MongoCollection<Document> collection = database.getCollection(collectionName);
-        SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/YYYY hh:mm:ss");
-        Document message = new Document("_id", new ObjectId());
+        SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date currentDate = new Date();
+        Document message = new Document();
         message.append("content", content);
-        message.append("creation_date", dateFormat.format(date));
+        message.append("creation_date", dateFormat.format(currentDate));
         collection.insertOne(message);
+        mongoClient.close();
     }
 
     public List<Document> getLastMessages() {
-        ArrayList<Document> messageList;
+    ArrayList<Document> messageList;
         MongoClient mongoClient = MongoClients.create(CONNECTION);
-        System.out.println("mongoClients");
         MongoDatabase database = mongoClient.getDatabase(DATABASE);
         MongoCollection<Document> collection = database.getCollection(collectionName);
         messageList = collection.find().sort(new BasicDBObject("creation_date",-1)).limit(10).into(new ArrayList<>());
+        mongoClient.close();
         return messageList;
     }
 
@@ -55,6 +54,7 @@ public class MongoService {
         MongoDatabase database = mongoClient.getDatabase(DATABASE);
         MongoCollection<Document> collection = database.getCollection(collectionName);
         messageList = collection.find().into(new ArrayList<>());
+        mongoClient.close();
         return messageList;
     }
 
@@ -64,6 +64,7 @@ public class MongoService {
         MongoDatabase database = mongoClient.getDatabase(DATABASE);
         MongoCollection<Document> collection = database.getCollection(collectionName);
         collection.drop();
+        mongoClient.close();
     }
 
     public static void main(String[] args){
