@@ -14,7 +14,9 @@ import static spark.Spark.post;
 import spark.Response;
 import spark.Request;
 
-
+/**
+ * Clase balanceadora de request REST
+ */
 public class Balancer{
         public static void main(String[] args){
         port(getPort());
@@ -27,7 +29,13 @@ public class Balancer{
         post("/messages", (req, res) -> handlePostMessage(req, res, server));
     }
 
-
+    /**
+     * Maneja el protocolo GET para la aplicacion y se lo manda al correspondiente metodo de la clase que conecta con el servidor de la base de datos
+     * @param req request
+     * @param res, response del request
+     * @param server, instancia del servidor a hacer el request
+     * @return String, La respuesta dada por el servidor al request
+     */
     public static String handleGetMessage(Request req, Response res, ServerConnection server) {
         String lbResponse;
         try {
@@ -38,6 +46,13 @@ public class Balancer{
         }
     }
 
+    /**
+     * Maneja el protocolo POST para la aplicacion y se lo manda al correspondiente metodo de la clase que conecta con el servidor de la base de datos
+     * @param req request
+     * @param res, response del request
+     * @param server, instancia del servidor a hacer el request
+     * @return String, La respuesta dada por el servidor al request
+     */
     public static String handlePostMessage(Request req, Response res, ServerConnection server) {
         System.out.println("ENTRO POST");
         try {
@@ -48,6 +63,10 @@ public class Balancer{
         }
     }
 
+    /**
+     * Obtiene el puerto en el que se utilizara la aplicacion, de manera local el predeterminado sera 4567
+     * @return
+     */
     private static int getPort() {
         if (System.getenv("PORT") != null) {
             return Integer.parseInt(System.getenv("PORT"));
